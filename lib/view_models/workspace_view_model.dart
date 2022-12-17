@@ -2,7 +2,6 @@ import 'package:final_project/models/task/api/task_api.dart';
 import 'package:final_project/models/workspace/api/workspace_api.dart';
 import 'package:final_project/models/workspace/workspace_model.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/workspace/workspace.dart';
 import '../utils/app_state.dart';
@@ -12,6 +11,7 @@ class WorkspaceViewModel extends ChangeNotifier {
   TaskApi taskApi = TaskApi();
 
   AppState _appState = AppState.loading;
+  AppState _appState2 = AppState.loading;
 
   List<WorkspaceModel> _workspaces = [];
   late Workspace _workspacesById;
@@ -19,6 +19,7 @@ class WorkspaceViewModel extends ChangeNotifier {
   List<WorkspaceModel> get workspaces => _workspaces;
   Workspace get workspacesById => _workspacesById;
   AppState get appState => _appState;
+  AppState get appState2 => _appState2;
 
   Future<void> getWorkspaces() async {
     try {
@@ -38,15 +39,15 @@ class WorkspaceViewModel extends ChangeNotifier {
 
   Future<void> getWorkspacesById(String workspaceId) async {
     try {
-      changeAppState(AppState.loading);
+      changeAppState2(AppState.loading);
 
       _workspacesById = await workspaceApi.getWorkspaceById(workspaceId);
       if (_workspaces.isEmpty) {
-        changeAppState(AppState.noData);
+        changeAppState2(AppState.noData);
       }
-      changeAppState(AppState.loaded);
+      changeAppState2(AppState.loaded);
     } catch (_) {
-      changeAppState(AppState.failure);
+      changeAppState2(AppState.failure);
     }
   }
 
@@ -72,7 +73,8 @@ class WorkspaceViewModel extends ChangeNotifier {
           workspaceName: workspaceName,
           workspaceDescription: workspaceDescription,
           workspaceId: workspaceId);
-      getWorkspaces();
+      await getWorkspaces();
+      await getWorkspacesById(workspaceId);
     } catch (_) {
       rethrow;
     }
@@ -118,6 +120,11 @@ class WorkspaceViewModel extends ChangeNotifier {
 
   void changeAppState(AppState appState) {
     _appState = appState;
+    notifyListeners();
+  }
+
+  void changeAppState2(AppState appState) {
+    _appState2 = appState;
     notifyListeners();
   }
 }

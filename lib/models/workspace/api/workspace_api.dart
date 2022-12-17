@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:final_project/models/workspace/workspace.dart';
@@ -48,7 +47,7 @@ class WorkspaceApi {
     try {
       if (response.statusCode == 200) {
         final Workspace workspace =
-            Workspace.fromJson(json.decode(response.body)['data']);
+            Workspace.fromJson(returnResponse.returnResponse(response)['data']);
 
         return workspace;
       }

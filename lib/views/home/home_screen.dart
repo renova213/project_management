@@ -95,15 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _listProject() {
     return Consumer<WorkspaceViewModel>(
       builder: (context, workspace, _) {
-        if (workspace.appState == AppState.loading) {
-          return ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) => const SkeletonContainer(
-                  width: double.maxFinite, height: 180, borderRadius: 15),
-              separatorBuilder: (context, index) => SizedBox(height: 16.h),
-              itemCount: 8);
-        }
         if (workspace.appState == AppState.loaded) {
           return ListView.separated(
               shrinkWrap: true,
@@ -115,7 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     Navigator.of(context).push(
                       NavigatorHelper(
-                          child: WorkspaceScreen(workspaceId: data.id)),
+                        child: WorkspaceScreen(workspace: data),
+                      ),
                     );
                   },
                   child: Container(
@@ -154,16 +146,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Row(
                                 children: [
                                   Container(
-                                    width: 30.w,
-                                    height: 30.h,
+                                    width: 30,
+                                    height: 30,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color: Colors.blueAccent),
+                                        color: Colors.white),
                                     child: Text(
                                       data.name[0],
                                       style: GoogleFonts.amita(
-                                          color: Colors.white,
+                                          color: Colors.black,
                                           fontSize: 16.sp,
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -200,14 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
               separatorBuilder: (context, index) => SizedBox(height: 16.h),
               itemCount: workspace.workspaces.length);
         }
-        if (workspace.appState == AppState.failure) {
-          return Center(
-            child: Text(
-              "Failed get workspace data",
-              style: AppFont.headline6,
-            ),
-          );
-        }
+
         if (workspace.appState == AppState.noData) {
           return Center(
             child: Text(
@@ -216,7 +201,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         }
-        return const SizedBox();
+        return ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) => const SkeletonContainer(
+                width: double.maxFinite, height: 180, borderRadius: 15),
+            separatorBuilder: (context, index) => SizedBox(height: 16.h),
+            itemCount: 8);
       },
     );
   }
@@ -231,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ? data.userWorkspaceModel.length
             : 4,
         itemBuilder: (context, index) {
-          if (index < 3) {
+          if (index <= 4 && data.userWorkspaceModel.length <= 4) {
             return Align(
               widthFactor: 0.5,
               child: Container(
@@ -280,10 +271,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         fit: BoxFit.fill),
                     borderRadius: BorderRadius.circular(100),
                     color: Colors.blueAccent),
-                child: data.userWorkspaceModel.length > 4
-                    ? Text("+${data.userWorkspaceModel.length - 4}",
-                        style: AppFont.subtitle.copyWith(color: Colors.white))
-                    : const Text(""),
+                child: Text("+${data.userWorkspaceModel.length - 4}",
+                    style: AppFont.subtitle.copyWith(color: Colors.white)),
               ),
             ),
           );
