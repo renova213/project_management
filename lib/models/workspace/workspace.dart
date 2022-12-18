@@ -53,19 +53,25 @@ class UserWorkspaceDetailModel extends Equatable {
   final String workspaceId;
   final int userId;
   final String role;
+  final String email;
+  final String username;
 
   const UserWorkspaceDetailModel(
       {required this.id,
       required this.workspaceId,
       required this.userId,
-      required this.role});
+      required this.role,
+      required this.email,
+      required this.username});
 
   factory UserWorkspaceDetailModel.fromJson(Map<String, dynamic> json) =>
       UserWorkspaceDetailModel(
           id: json['id'],
           workspaceId: json['workspace_id'],
           userId: json['user_id'],
-          role: json['role']);
+          role: json['role'],
+          username: json['username'],
+          email: json['email']);
 
   @override
   List<Object> get props => [id, workspaceId, userId, role];

@@ -84,7 +84,32 @@ class WorkspaceViewModel extends ChangeNotifier {
     try {
       await workspaceApi.deleteWorkspace(workspaceId);
       getWorkspaces();
+      await getWorkspacesById(workspaceId);
       notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> addWorkspaceTeam(
+      {required String email, required String workspaceId}) async {
+    try {
+      await workspaceApi.addTeamWorkspace(
+          email: email, workspaceId: workspaceId);
+      await getWorkspaces();
+      await getWorkspacesById(workspaceId);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> removeorkspaceTeam(
+      {required String email, required String workspaceId}) async {
+    try {
+      await workspaceApi.removeTeamWorkspace(
+          email: email, workspaceId: workspaceId);
+      await getWorkspaces();
+      await getWorkspacesById(workspaceId);
     } catch (_) {
       rethrow;
     }

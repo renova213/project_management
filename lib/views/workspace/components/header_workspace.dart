@@ -1,3 +1,4 @@
+import 'package:final_project/views/team/team_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:final_project/utils/app_state.dart';
 import 'package:final_project/utils/navigator_helper.dart';
@@ -60,6 +61,11 @@ class _HeaderWorkspaceState extends State<HeaderWorkspace> {
                             _editWorkspaceModal(context);
                           }
                           if (value == 1) {
+                            Navigator.of(context).push(
+                              NavigatorHelper(child: const TeamScreen()),
+                            );
+                          }
+                          if (value == 2) {
                             try {
                               await workspace
                                   .deleteWorkspace(widget.workspace.id)
@@ -104,6 +110,16 @@ class _HeaderWorkspaceState extends State<HeaderWorkspace> {
                             value: 1,
                             child: Row(
                               children: [
+                                const Icon(Icons.people, size: 18),
+                                SizedBox(width: 8.w),
+                                Text("Edit Team", style: AppFont.bodyText2),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: 2,
+                            child: Row(
+                              children: [
                                 const Icon(Icons.delete,
                                     size: 18, color: Colors.red),
                                 SizedBox(width: 8.w),
@@ -146,17 +162,17 @@ class _HeaderWorkspaceState extends State<HeaderWorkspace> {
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white),
                   child: Consumer<WorkspaceViewModel>(
-                    builder: (context, workspace, _) =>
-                        workspace.appState2 == AppState.loaded
-                            ? Text(
-                                "R",
-                                style: GoogleFonts.amita(
-                                    color: Colors.black,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            : SkeletonContainer(
-                                width: 15.w, height: 15.h, borderRadius: 0),
+                    builder: (context, workspace, _) => workspace.appState2 ==
+                            AppState.loaded
+                        ? Text(
+                            workspace.workspacesById.workspaceDetail.name[0],
+                            style: GoogleFonts.amita(
+                                color: Colors.black,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold),
+                          )
+                        : SkeletonContainer(
+                            width: 15.w, height: 15.h, borderRadius: 0),
                   ),
                 ),
                 _listMemberTeam(),

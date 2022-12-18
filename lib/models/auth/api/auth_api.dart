@@ -72,13 +72,8 @@ class AuthApi {
     try {
       if (response.statusCode == 200) {
         prefs.setString(
-          'token',
-          json.decode(response.body)['data']['access_token'],
-        );
-        prefs.setString(
-            'email', json.decode(response.body)['data']['user']['email']);
-        prefs.setString(
-            'username', json.decode(response.body)['data']['user']['username']);
+            'token', json.decode(response.body)['data']['access_token']);
+
         return returnResponse.returnResponse(response);
       }
       return returnResponse.returnResponse(response);

@@ -3,7 +3,7 @@ import 'package:final_project/models/workspace/workspace_model.dart';
 import 'package:final_project/utils/app_state.dart';
 import 'package:final_project/view_models/workspace_view_model.dart';
 import 'package:final_project/views/widgets/widgets.dart';
-import 'package:final_project/views/workspace/components/header_workspace.dart';
+import 'package:final_project/views/workspace/components/workspace_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +35,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
           children: [
             HeaderWorkspace(workspace: widget.workspace),
             _detailWorkspace(),
+            const BodyWorkspace(),
           ],
         ),
       ),

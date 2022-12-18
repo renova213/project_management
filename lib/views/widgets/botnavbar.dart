@@ -16,8 +16,11 @@ class _BotNavBarState extends State<BotNavBar> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<BotnavbarViewModel>(context, listen: false).changeIndex(0));
+    Future.microtask(
+      () {
+        Provider.of<BotnavbarViewModel>(context, listen: false).changeIndex(0);
+      },
+    );
   }
 
   @override

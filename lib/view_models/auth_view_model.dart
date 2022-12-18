@@ -14,7 +14,6 @@ class AuthViewModel extends ChangeNotifier {
   Future<void> loginRequest(LoginModel login) async {
     try {
       await authApi.loginRequest(login);
-      addUser();
     } catch (_) {
       rethrow;
     }
@@ -44,18 +43,9 @@ class AuthViewModel extends ChangeNotifier {
   Future<void> refreshToken() async {
     try {
       await authApi.refreshToken();
-      addUser();
+      notifyListeners();
     } catch (_) {
       rethrow;
     }
-  }
-
-  Future<void> addUser() async {
-    final pref = await SharedPreferences.getInstance();
-    _user = UserModel(
-        username: pref.getString('username') ?? "Null",
-        email: pref.getString('email') ?? "Null");
-
-    notifyListeners();
   }
 }

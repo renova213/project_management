@@ -112,4 +112,38 @@ class WorkspaceApi {
       throw "No Internet Connection";
     }
   }
+
+  Future<dynamic> addTeamWorkspace(
+      {required String email, required String workspaceId}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final response = await http.post(
+      Uri.parse("$baseUrl/api/workspace/invite/$workspaceId"),
+      body: {'email': email},
+      headers: {"Authorization": "Bearer ${prefs.getString('token')}"},
+    );
+
+    try {
+      return returnResponse.returnResponse(response);
+    } on SocketException {
+      throw "No Internet Connection";
+    }
+  }
+
+  Future<dynamic> removeTeamWorkspace(
+      {required String email, required String workspaceId}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final response = await http.delete(
+      Uri.parse("$baseUrl/api/workspace/remove/$workspaceId"),
+      body: {'email': email},
+      headers: {"Authorization": "Bearer ${prefs.getString('token')}"},
+    );
+
+    try {
+      return returnResponse.returnResponse(response);
+    } on SocketException {
+      throw "No Internet Connection";
+    }
+  }
 }
