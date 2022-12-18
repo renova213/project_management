@@ -222,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ? data.userWorkspaceModel.length
             : 4,
         itemBuilder: (context, index) {
-          if (index <= 4 && data.userWorkspaceModel.length <= 4) {
+          if (index < 3) {
             return Align(
               widthFactor: 0.5,
               child: Container(
@@ -264,15 +264,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.5), BlendMode.dstATop),
+                        colorFilter: data.userWorkspaceModel.length > 4
+                            ? ColorFilter.mode(Colors.black.withOpacity(0.5),
+                                BlendMode.dstATop)
+                            : null,
                         image: const NetworkImage(
                             'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg'),
                         fit: BoxFit.fill),
                     borderRadius: BorderRadius.circular(100),
                     color: Colors.blueAccent),
-                child: Text("+${data.userWorkspaceModel.length - 4}",
-                    style: AppFont.subtitle.copyWith(color: Colors.white)),
+                child: data.userWorkspaceModel.length > 4
+                    ? Text("+${data.userWorkspaceModel.length - 4}",
+                        style: AppFont.subtitle.copyWith(color: Colors.white))
+                    : null,
               ),
             ),
           );

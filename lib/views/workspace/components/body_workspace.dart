@@ -15,6 +15,7 @@ class BodyWorkspace extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const OpenTask(),
             SizedBox(width: 24.w),
