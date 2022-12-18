@@ -2,6 +2,7 @@ import 'package:final_project/view_models/auth_view_model.dart';
 import 'package:final_project/view_models/botnavbar_view_model.dart';
 import 'package:final_project/view_models/profil_view_model.dart';
 import 'package:final_project/view_models/tabbar_view_model.dart';
+import 'package:final_project/view_models/task_view_model.dart';
 import 'package:final_project/view_models/workspace_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => WorkspaceViewModel()),
         ChangeNotifierProvider(create: (_) => ProfilViewModel()),
         ChangeNotifierProvider(create: (_) => BotnavbarViewModel()),
+        ChangeNotifierProvider(create: (_) => TaskViewModel()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),

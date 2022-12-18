@@ -104,8 +104,8 @@ class WorkspaceTaskModel extends Equatable {
           userId: json['user_id'],
           title: json['title'],
           description: json['description'],
-          label: json['label'],
-          milestone: json['milestone'],
+          label: json['label'] ?? "",
+          milestone: json['milestone'] ?? "",
           progress: json['progress']);
 
   @override

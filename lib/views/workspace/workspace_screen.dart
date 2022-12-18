@@ -28,6 +28,12 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _addTaskModal(context);
+        },
+        child: const Icon(Icons.add),
+      ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -76,6 +82,31 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
           );
         },
       ),
+    );
+  }
+
+  void _addTaskModal(BuildContext context) {
+    showGeneralDialog(
+      barrierLabel: "showGeneralDialog",
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.6),
+      transitionDuration: const Duration(milliseconds: 200),
+      context: context,
+      pageBuilder: (context, _, __) {
+        return const Align(
+          alignment: Alignment.bottomCenter,
+          child: ModalAddTask(),
+        );
+      },
+      transitionBuilder: (_, animation1, __, child) {
+        return SlideTransition(
+          position: Tween(
+            begin: const Offset(0, 1),
+            end: const Offset(0, 0),
+          ).animate(animation1),
+          child: child,
+        );
+      },
     );
   }
 }

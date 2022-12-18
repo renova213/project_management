@@ -13,10 +13,18 @@ class WorkspaceViewModel extends ChangeNotifier {
   AppState _appState = AppState.loading;
   AppState _appState2 = AppState.loading;
 
+  List<WorkspaceTaskModel> _openTask = [];
+  List<WorkspaceTaskModel> _pendingTask = [];
+  List<WorkspaceTaskModel> _progressTask = [];
+  List<WorkspaceTaskModel> _doneTask = [];
   List<WorkspaceModel> _workspaces = [];
   late Workspace _workspacesById;
 
   List<WorkspaceModel> get workspaces => _workspaces;
+  List<WorkspaceTaskModel> get openTask => _openTask;
+  List<WorkspaceTaskModel> get pendingTask => _pendingTask;
+  List<WorkspaceTaskModel> get progressTask => _progressTask;
+  List<WorkspaceTaskModel> get doneTask => _doneTask;
   Workspace get workspacesById => _workspacesById;
   AppState get appState => _appState;
   AppState get appState2 => _appState2;
@@ -42,6 +50,8 @@ class WorkspaceViewModel extends ChangeNotifier {
       changeAppState2(AppState.loading);
 
       _workspacesById = await workspaceApi.getWorkspaceById(workspaceId);
+      await Future.delayed(const Duration(seconds: 1));
+      filterTask();
       if (_workspaces.isEmpty) {
         changeAppState2(AppState.noData);
       }
@@ -49,6 +59,22 @@ class WorkspaceViewModel extends ChangeNotifier {
     } catch (_) {
       changeAppState2(AppState.failure);
     }
+  }
+
+  Future<void> filterTask() async {
+    _openTask = _workspacesById.workspaceTask
+        .where((element) => element.progress.toLowerCase().contains('open'))
+        .toList();
+    _pendingTask = _workspacesById.workspaceTask
+        .where((element) => element.progress.toLowerCase().contains('pending'))
+        .toList();
+    _progressTask = _workspacesById.workspaceTask
+        .where((element) => element.progress.toLowerCase().contains('progress'))
+        .toList();
+    _doneTask = _workspacesById.workspaceTask
+        .where((element) => element.progress.toLowerCase().contains('done'))
+        .toList();
+    notifyListeners();
   }
 
   Future<void> postWorkspaces(
@@ -122,6 +148,18 @@ class WorkspaceViewModel extends ChangeNotifier {
     try {
       await taskApi.postTask(
           workspaceId: workspaceId, title: title, description: description);
+      getWorkspacesById(workspaceId);
+      notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> deleteTask(
+      {required int taskId, required String workspaceId}) async {
+    try {
+      await taskApi.deleteTask(taskId: taskId);
+      getWorkspacesById(workspaceId);
       notifyListeners();
     } catch (_) {
       rethrow;

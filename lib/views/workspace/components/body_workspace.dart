@@ -21,8 +21,6 @@ class BodyWorkspace extends StatelessWidget {
             SizedBox(width: 24.w),
             const PendingTask(),
             SizedBox(width: 24.w),
-            const TodoTask(),
-            SizedBox(width: 24.w),
             const InProgressTask(),
             SizedBox(width: 24.w),
             const DoneTask(),
