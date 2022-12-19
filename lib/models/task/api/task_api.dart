@@ -96,7 +96,6 @@ class TaskApi {
       Uri.parse("$baseUrl/api/workspace/task/$taskId"),
       headers: {"Authorization": "Bearer ${prefs.getString('token')}"},
     );
-
     try {
       return returnResponse.returnResponse(response);
     } on SocketException {

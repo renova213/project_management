@@ -160,7 +160,6 @@ class WorkspaceViewModel extends ChangeNotifier {
     try {
       await taskApi.deleteTask(taskId: taskId);
       getWorkspacesById(workspaceId);
-      notifyListeners();
     } catch (_) {
       rethrow;
     }

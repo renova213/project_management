@@ -150,7 +150,7 @@ class _ModalAddWorkspaceState extends State<ModalAddTask> {
                                 title: _nameController.text,
                                 description: _descriptionController.text)
                             .then((_) => Fluttertoast.showToast(
-                                msg: "Workspace berhasil ditambahkan"))
+                                msg: "Task berhasil ditambahkan"))
                             .then(
                               (_) => Navigator.pop(context),
                             );

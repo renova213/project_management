@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
+import '../../../view_models/task_view_model.dart';
 import '../../../view_models/workspace_view_model.dart';
 
 class InProgressTask extends StatelessWidget {
@@ -207,71 +208,106 @@ class InProgressTask extends StatelessWidget {
                                 ),
                               )),
                           const Spacer(),
-                          PopupMenuButton(
-                            onSelected: (value) async {
-                              if (value == 0) {}
-                              if (value == 1) {}
-                              if (value == 2) {}
-                              if (value == 3) {}
-                            },
-                            itemBuilder: (context) => [
-                              PopupMenuItem(
-                                value: 0,
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.flag,
-                                        color: Colors.yellow, size: 18.sp),
-                                    SizedBox(width: 8.w),
-                                    Text("In Progress",
-                                        style: AppFont.bodyText2),
-                                  ],
-                                ),
-                              ),
-                              PopupMenuItem(
-                                value: 1,
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.flag,
-                                        color: Colors.blue, size: 18.sp),
-                                    SizedBox(width: 8.w),
-                                    Text(
-                                      "To-Do",
-                                      style: AppFont.bodyText2,
+                          Consumer<TaskViewModel>(
+                            builder: (context, task, _) => PopupMenuButton(
+                              onSelected: (value) async {
+                                try {
+                                  if (value == 0) {
+                                    await task
+                                        .updateTask(
+                                            id: task.task.id,
+                                            title: task.task.title,
+                                            description: task.task.description,
+                                            progress: "open",
+                                            milestone: task.task.milestone,
+                                            workspaceId: task.task.workspaceId)
+                                        .then(
+                                          (_) => workspace.getWorkspacesById(
+                                              task.task.workspaceId),
+                                        );
+                                  }
+                                  if (value == 1) {
+                                    await task
+                                        .updateTask(
+                                            id: task.task.id,
+                                            title: task.task.title,
+                                            description: task.task.description,
+                                            progress: "pending",
+                                            milestone: task.task.milestone,
+                                            workspaceId: task.task.workspaceId)
+                                        .then(
+                                          (_) => workspace.getWorkspacesById(
+                                              task.task.workspaceId),
+                                        );
+                                  }
+                                  if (value == 2) {
+                                    await task
+                                        .updateTask(
+                                            id: task.task.id,
+                                            title: task.task.title,
+                                            description: task.task.description,
+                                            progress: "done",
+                                            milestone: task.task.milestone,
+                                            workspaceId: task.task.workspaceId)
+                                        .then(
+                                          (_) => workspace.getWorkspacesById(
+                                              task.task.workspaceId),
+                                        );
+                                  }
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        e.toString(),
+                                      ),
                                     ),
-                                  ],
+                                  );
+                                }
+                              },
+                              itemBuilder: (context) => [
+                                PopupMenuItem(
+                                  value: 0,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.flag,
+                                          color: Colors.blue, size: 18.sp),
+                                      SizedBox(width: 8.w),
+                                      Text("Open", style: AppFont.bodyText2),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              PopupMenuItem(
-                                value: 2,
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.flag,
-                                        color: Colors.red, size: 18.sp),
-                                    SizedBox(width: 8.w),
-                                    Text(
-                                      "In-Progress",
-                                      style: AppFont.bodyText2,
-                                    ),
-                                  ],
+                                PopupMenuItem(
+                                  value: 1,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.flag,
+                                          color: Colors.yellow, size: 18.sp),
+                                      SizedBox(width: 8.w),
+                                      Text(
+                                        "Pending",
+                                        style: AppFont.bodyText2,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              PopupMenuItem(
-                                value: 3,
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.flag,
-                                        color: Colors.green, size: 18.sp),
-                                    SizedBox(width: 8.w),
-                                    Text(
-                                      "Done",
-                                      style: AppFont.bodyText2,
-                                    ),
-                                  ],
+                                PopupMenuItem(
+                                  value: 2,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.flag,
+                                          color: Colors.green, size: 18.sp),
+                                      SizedBox(width: 8.w),
+                                      Text(
+                                        "Done",
+                                        style: AppFont.bodyText2,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                            child: Icon(Icons.flag,
-                                color: Colors.yellow, size: 30.sp),
+                              ],
+                              child: Icon(Icons.flag,
+                                  color: Colors.red, size: 30.sp),
+                            ),
                           ),
                         ],
                       ),

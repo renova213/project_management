@@ -1,6 +1,7 @@
 import 'package:final_project/constants/app_font.dart';
 import 'package:final_project/models/workspace/workspace.dart';
 import 'package:final_project/view_models/task_view_model.dart';
+import 'package:final_project/views/task/components/milestone_container.dart';
 import 'package:final_project/views/task/components/status_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,6 +50,8 @@ class _TaskScreenState extends State<TaskScreen> {
                 const TitleContainer(),
                 SizedBox(height: 8.h),
                 const DescriptionContainer(),
+                SizedBox(height: 8.h),
+                const MilestoneContainer(),
                 SizedBox(height: 8.h),
                 const StatusContainer(),
                 SizedBox(height: 16.h),
