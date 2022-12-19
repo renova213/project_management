@@ -108,7 +108,8 @@ class TaskApi {
       {required int id,
       required String title,
       required String description,
-      required String progress}) async {
+      required String progress,
+      required String milestone}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final response =
@@ -119,7 +120,7 @@ class TaskApi {
       "description": description,
       "status": "0",
       "label": "feature",
-      "milestone": "v.1",
+      "milestone": milestone,
       "progress": progress
     });
 

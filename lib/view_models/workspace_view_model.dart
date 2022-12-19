@@ -50,7 +50,7 @@ class WorkspaceViewModel extends ChangeNotifier {
       changeAppState2(AppState.loading);
 
       _workspacesById = await workspaceApi.getWorkspaceById(workspaceId);
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 500));
       filterTask();
       if (_workspaces.isEmpty) {
         changeAppState2(AppState.noData);
@@ -160,21 +160,6 @@ class WorkspaceViewModel extends ChangeNotifier {
     try {
       await taskApi.deleteTask(taskId: taskId);
       getWorkspacesById(workspaceId);
-      notifyListeners();
-    } catch (_) {
-      rethrow;
-    }
-  }
-
-  Future<void> updateTask(
-      {required int id,
-      required String title,
-      required String description,
-      required String progress,
-      required String workspaceId}) async {
-    try {
-      await taskApi.putTask(
-          id: id, title: title, description: description, progress: progress);
       notifyListeners();
     } catch (_) {
       rethrow;

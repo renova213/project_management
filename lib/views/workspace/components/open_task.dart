@@ -9,7 +9,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../../view_models/workspace_view_model.dart';
-import '../../assign_task/assign_task_screen.dart';
 
 class OpenTask extends StatelessWidget {
   const OpenTask({super.key});
@@ -45,8 +44,7 @@ class OpenTask extends StatelessWidget {
                     builder: (context, workspace, _) => workspace.appState2 ==
                             AppState.loaded
                         ? Text(
-                            workspace.workspacesById.workspaceTask.length
-                                .toString(),
+                            workspace.openTask.length.toString(),
                             style:
                                 AppFont.bodyText1.copyWith(color: Colors.black),
                           )
@@ -108,14 +106,8 @@ class OpenTask extends StatelessWidget {
                                         ),
                                       );
                                     }
+
                                     if (value == 1) {
-                                      Navigator.of(context).push(
-                                        NavigatorHelper(
-                                          child: AssignTaskScreen(task: data),
-                                        ),
-                                      );
-                                    }
-                                    if (value == 2) {
                                       try {
                                         await workspace
                                             .deleteTask(
@@ -148,17 +140,6 @@ class OpenTask extends StatelessWidget {
                                     ),
                                     PopupMenuItem(
                                       value: 1,
-                                      child: Row(
-                                        children: [
-                                          const Icon(Icons.people, size: 18),
-                                          SizedBox(width: 8.w),
-                                          Text("Assign Team",
-                                              style: AppFont.bodyText2),
-                                        ],
-                                      ),
-                                    ),
-                                    PopupMenuItem(
-                                      value: 2,
                                       child: Row(
                                         children: [
                                           const Icon(Icons.delete,

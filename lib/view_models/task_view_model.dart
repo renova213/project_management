@@ -25,6 +25,26 @@ class TaskViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> updateTask(
+      {required int id,
+      required String title,
+      required String description,
+      required String progress,
+      required String milestone,
+      required String workspaceId}) async {
+    try {
+      await taskApi.putTask(
+          id: id,
+          title: title,
+          description: description,
+          progress: progress,
+          milestone: milestone);
+      getTask(id);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
   Future<void> assignMemberTask(
       {required int userId, required int taskId}) async {
     try {

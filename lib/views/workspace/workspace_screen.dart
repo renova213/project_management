@@ -42,6 +42,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
             HeaderWorkspace(workspace: widget.workspace),
             _detailWorkspace(),
             const BodyWorkspace(),
+            SizedBox(height: 32.h),
           ],
         ),
       ),
